@@ -22,6 +22,11 @@ public class MainPresenter {
     private ArrayList<Deputado> mDeputados = null;
     private CamaraService service;
 
+    public MainPresenter(ArrayList<Deputado> mDeputados, CamaraService service) {
+        this.mDeputados = mDeputados;
+        this.service = service;
+    }
+
     public ArrayList<Deputado> getAllDeputados() {
         service = CamaraApi.getInstance().create(CamaraService.class);
         callGetAllDeputados().enqueue(new Callback<Dados>() {
@@ -39,7 +44,7 @@ public class MainPresenter {
         return mDeputados;
     }
 
-    Call<Dados> callGetAllDeputados() {
+    private Call<Dados> callGetAllDeputados() {
         return service.deputadosList();
     }
 

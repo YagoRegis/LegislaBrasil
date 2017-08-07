@@ -44,13 +44,15 @@ public class MainActivity extends AppCompatActivity {
         layoutManager = new LinearLayoutManager(getApplicationContext());
         rvMain.setLayoutManager(layoutManager);
 
+        mainPresenter = new MainPresenter(mDeputados, service);
+
         //loadData();
         mDeputados = mainPresenter.getAllDeputados();
 
         adapter = new DeputadoAdapter(mDeputados, getApplicationContext());
         rvMain.setAdapter(adapter);
     }
-
+    /*
     private void loadData() {
         service = CamaraApi.getInstance().create(CamaraService.class);
         callGetAllDeputados().enqueue(new Callback<Dados>() {
@@ -76,5 +78,5 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<Deputado> fetchData(Response<Dados> response) {
         Dados dados = response.body();
         return dados.getDados();
-    }
+    }*/
 }
