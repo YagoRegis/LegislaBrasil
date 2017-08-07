@@ -9,7 +9,6 @@ import com.cursoandroid.examplerecyclerview.legislabrasil.network.CamaraApi;
 import com.cursoandroid.examplerecyclerview.legislabrasil.network.CamaraService;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -18,7 +17,6 @@ import retrofit2.Response;
 /**
  * Created by -Yago- on 06/08/2017.
  */
-
 
 public class MainPresenter {
     private ArrayList<Deputado> mDeputados = null;
