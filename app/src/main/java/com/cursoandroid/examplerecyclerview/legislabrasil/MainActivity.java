@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
         mainPresenter = new MainPresenter(mDeputados, service);
 
         //loadData();
-        
+
         adapter = new DeputadoAdapter(mainPresenter.getAllDeputados(), getApplicationContext());
         rvMain.setAdapter(adapter);
     }

@@ -24,14 +24,14 @@ import butterknife.ButterKnife;
 
 public class DeputadoAdapter extends RecyclerView.Adapter<DeputadoAdapter.ViewHolder>{
     private ArrayList<Deputado> mDeputados;
-    private Context mContext;
+    Context mContext;
 
     public DeputadoAdapter(ArrayList<Deputado> deputados, Context context) {
-        mDeputados = deputados;
-        mContext = context;
+        this.mDeputados = deputados;
+        this.mContext = context;
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.deputado_foto) ImageView deputadoFoto;
         @BindView(R.id.deputado_name) TextView deputadoName;
         @BindView(R.id.deputado_partido) TextView deputadoPartido;
