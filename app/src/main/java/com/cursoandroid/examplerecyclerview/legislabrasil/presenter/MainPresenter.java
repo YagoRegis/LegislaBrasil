@@ -19,7 +19,7 @@ import retrofit2.Response;
  */
 
 public class MainPresenter {
-    private ArrayList<Deputado> mDeputados = null;
+    private ArrayList<Deputado> mDeputados;
     private CamaraService service;
 
     public MainPresenter(ArrayList<Deputado> mDeputados, CamaraService service) {
