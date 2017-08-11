@@ -2,10 +2,8 @@ package com.cursoandroid.examplerecyclerview.legislabrasil;
 
 import android.util.Log;
 
-import com.cursoandroid.examplerecyclerview.legislabrasil.adapter.DeputadoAdapter;
 import com.cursoandroid.examplerecyclerview.legislabrasil.models.Dados;
 import com.cursoandroid.examplerecyclerview.legislabrasil.models.Deputado;
-import com.cursoandroid.examplerecyclerview.legislabrasil.network.CamaraApi;
 import com.cursoandroid.examplerecyclerview.legislabrasil.network.CamaraService;
 
 import java.util.ArrayList;
@@ -21,27 +19,33 @@ import retrofit2.Response;
 public class Model implements MVP.ModelImp {
     private ArrayList<Deputado> mDeputados = null;
     private MVP.PresenterImp presenter;
+    private static CamaraService camaraService;
 
     public Model(MVP.PresenterImp presenter) {
         this.presenter = presenter;
     }
 
     @Override
-    public ArrayList<Deputado> loadData() {
-        CamaraService service = CamaraApi.getInstance().create(CamaraService.class);
-        service.deputadosList().enqueue(new Callback<Dados>() {
+    public void loadData() {
+        camaraService.getInstance().deputadosList().enqueue(new Callback<Dados>() {
             @Override
             public void onResponse(Call<Dados> call, Response<Dados> response) {
                 mDeputados = fetchData(response);
+
+                if(mDeputados != null) {
+                    presenter.getDeputados();
+                }
             }
 
             @Override
             public void onFailure(Call<Dados> call, Throwable t) {
-                Log.d("Error", t.getMessage());
+                try {
+                    throw new InterruptedException("Erro ao se comunicar com o servidor!");
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
         });
-
-        return mDeputados;
     }
 
     @Override
@@ -49,4 +53,5 @@ public class Model implements MVP.ModelImp {
         Dados dados = response.body();
         return dados.getDados();
     }
+
 }

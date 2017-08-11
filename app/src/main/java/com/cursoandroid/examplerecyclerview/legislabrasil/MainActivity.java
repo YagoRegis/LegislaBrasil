@@ -33,8 +33,6 @@ public class MainActivity extends AppCompatActivity implements MVP.ViewImp {
 
         presenter.setView(this);
         presenter.loadData(savedInstanceState);
-
-        //loadData();
     }
 
     @Override
@@ -46,6 +44,7 @@ public class MainActivity extends AppCompatActivity implements MVP.ViewImp {
         rvMain.setLayoutManager(layoutManager);
         
         adapter = new DeputadoAdapter(presenter.getDeputados(), this);
+
         rvMain.setAdapter(adapter);
     }
 
@@ -53,34 +52,4 @@ public class MainActivity extends AppCompatActivity implements MVP.ViewImp {
     public void loadRecyclerView() {
         adapter.notifyDataSetChanged();
     }
-
-
-    /*
-    private void loadData() {
-        service = CamaraApi.getInstance().create(CamaraService.class);
-        service.deputadosList().enqueue(new Callback<Dados>() {
-            @Override
-            public void onResponse(Call<Dados> call, Response<Dados> response) {
-                mDeputados = fetchData(response);
-                Log.i("deputados", "deputados");
-                adapter = new DeputadoAdapter(mDeputados, getApplicationContext());
-                rvMain.setAdapter(adapter);
-            }
-
-            @Override
-            public void onFailure(Call<Dados> call, Throwable t) {
-                Log.d("Error", t.getMessage());
-            }
-        });
-    }
-
-    private Call<Dados> callGetAllDeputados() {
-        return service.deputadosList();
-    }
-
-    private ArrayList<Deputado> fetchData(Response<Dados> response) {
-        Dados dados = response.body();
-        return dados.getDados();
-    }
-    */
 }

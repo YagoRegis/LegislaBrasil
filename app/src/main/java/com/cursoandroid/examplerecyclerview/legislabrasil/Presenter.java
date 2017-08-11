@@ -31,11 +31,6 @@ public class Presenter implements MVP.PresenterImp {
     }
 
     @Override
-    public ArrayList<Deputado> fetchData(Response<Dados> response) {
-        return model.fetchData(response);
-    }
-
-    @Override
     public ArrayList<Deputado> getDeputados() {
         return mDeputados;
     }

@@ -17,13 +17,12 @@ import retrofit2.Response;
 
 public interface MVP {
     interface ModelImp {
-        ArrayList<Deputado> loadData();
+        void loadData();
         ArrayList<Deputado> fetchData(Response<Dados> response);
     }
 
     interface PresenterImp {
         void loadData(Bundle savedInstanceState);
-        ArrayList<Deputado> fetchData(Response<Dados> response);
         ArrayList<Deputado> getDeputados();
         Context getContext();
         void setView(ViewImp view);
