@@ -7,29 +7,16 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
 import com.cursoandroid.examplerecyclerview.legislabrasil.adapter.DeputadoAdapter;
-import com.cursoandroid.examplerecyclerview.legislabrasil.models.Dados;
-import com.cursoandroid.examplerecyclerview.legislabrasil.models.Deputado;
-import com.cursoandroid.examplerecyclerview.legislabrasil.network.CamaraApi;
-import com.cursoandroid.examplerecyclerview.legislabrasil.network.CamaraService;
-import com.cursoandroid.examplerecyclerview.legislabrasil.presenter.MainPresenter;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements MVP.ViewImp {
     private RecyclerView.LayoutManager layoutManager;
-    private MainPresenter mainPresenter;
 
     private DeputadoAdapter adapter;
-    private ArrayList<Deputado> mDeputados;
+    private static MVP.PresenterImp presenter;
 
-    private CamaraService service;
 
     @BindView(R.id.rv_main_activity) RecyclerView rvMain;
 
@@ -40,21 +27,38 @@ public class MainActivity extends AppCompatActivity {
 
         ButterKnife.bind(this);
 
+        if(presenter == null) {
+            presenter = new Presenter();
+        }
+
+        presenter.setView(this);
+        presenter.loadData(savedInstanceState);
+
+        //loadData();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
         rvMain.setHasFixedSize(false);
         layoutManager = new LinearLayoutManager(getApplicationContext());
         rvMain.setLayoutManager(layoutManager);
-
-        mainPresenter = new MainPresenter(mDeputados, service);
-
-        //loadData();
-
-        adapter = new DeputadoAdapter(mainPresenter.getAllDeputados(), getApplicationContext());
+        
+        adapter = new DeputadoAdapter(presenter.getDeputados(), this);
         rvMain.setAdapter(adapter);
     }
+
+    @Override
+    public void loadRecyclerView() {
+        adapter.notifyDataSetChanged();
+    }
+
+
     /*
     private void loadData() {
         service = CamaraApi.getInstance().create(CamaraService.class);
-        callGetAllDeputados().enqueue(new Callback<Dados>() {
+        service.deputadosList().enqueue(new Callback<Dados>() {
             @Override
             public void onResponse(Call<Dados> call, Response<Dados> response) {
                 mDeputados = fetchData(response);
@@ -77,5 +81,6 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<Deputado> fetchData(Response<Dados> response) {
         Dados dados = response.body();
         return dados.getDados();
-    }*/
+    }
+    */
 }

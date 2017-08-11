@@ -1,4 +1,4 @@
-package com.cursoandroid.examplerecyclerview.legislabrasil.presenter;
+package com.cursoandroid.examplerecyclerview.legislabrasil;
 
 import android.util.Log;
 
@@ -15,21 +15,21 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 /**
- * Created by -Yago- on 06/08/2017.
+ * Created by -Yago- on 10/08/2017.
  */
 
-public class MainPresenter {
-    private ArrayList<Deputado> mDeputados;
-    private CamaraService service;
+public class Model implements MVP.ModelImp {
+    private ArrayList<Deputado> mDeputados = null;
+    private MVP.PresenterImp presenter;
 
-    public MainPresenter(ArrayList<Deputado> mDeputados, CamaraService service) {
-        this.mDeputados = mDeputados;
-        this.service = service;
+    public Model(MVP.PresenterImp presenter) {
+        this.presenter = presenter;
     }
 
-    public ArrayList<Deputado> getAllDeputados() {
-        service = CamaraApi.getInstance().create(CamaraService.class);
-        callGetAllDeputados().enqueue(new Callback<Dados>() {
+    @Override
+    public ArrayList<Deputado> loadData() {
+        CamaraService service = CamaraApi.getInstance().create(CamaraService.class);
+        service.deputadosList().enqueue(new Callback<Dados>() {
             @Override
             public void onResponse(Call<Dados> call, Response<Dados> response) {
                 mDeputados = fetchData(response);
@@ -44,13 +44,9 @@ public class MainPresenter {
         return mDeputados;
     }
 
-    private Call<Dados> callGetAllDeputados() {
-        return service.deputadosList();
-    }
-
-    private ArrayList<Deputado> fetchData(Response<Dados> response) {
+    @Override
+    public ArrayList<Deputado> fetchData(Response<Dados> response) {
         Dados dados = response.body();
         return dados.getDados();
     }
-
 }
